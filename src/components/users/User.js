@@ -35,7 +35,7 @@ export class User extends Component {
             hireable
         } = this.props.user;
 
-        const {loading, repos} = this.props;
+        const { repos, loading} = this.props;
 
         if (loading) {
             return (<Spinner />);
@@ -88,6 +88,7 @@ export class User extends Component {
                         <div className="badge badge-light">Public Repos: {public_repos}</div>
                         <div className="badge badge-dark">Public Gists: {public_gists}</div>
                      </div>
+                     <div className="card text-center"><h2>Public Repositories</h2></div>
                      <Repos repos={repos} />
                 </Fragment>
             );
