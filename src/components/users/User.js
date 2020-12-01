@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 
 
 const User = ({user, loading, getUser, getUserRepos, repos, match}) => {
+    //useEffect || without the empty array[] as second parameter, it runs infinitly
     useEffect(() => {
         getUser(match.params.login);
         getUserRepos(match.params.login);
