@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react"
+import React, { useState, Fragment, useEffect } from "react"
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navbar from "./components/layout/Navbar";
 import Alert from "./components/layout/Alert";
@@ -19,19 +19,18 @@ const App = () => {
   const [alert, setAlert] = useState(null)
   
   //The default users onload
-//   useEffect(() => { 
-//       setLoading(true);
-//       const res = await axios.get(`https://api.github.com/users?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
-//       setUser(res.data);
-//       setLoading(false);
-//     // eslint-disable-next-line
-// }, []);
+  useEffect(() => { 
+      loadDefault();
+    // eslint-disable-next-line
+}, []);
 
-  // async componentDidMount() {
-  //   this.setState({ loading: true });
-  //   const res = await axios.get(`https://api.github.com/users?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
-  //   this.setState({ users: res.data, loading: false });
-  // }
+  const loadDefault = async (res) => {
+    setLoading(true);
+    res = await axios.get(`https://api.github.com/users?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
+    setUsers(res.data);
+      setLoading(false);
+  }
+
   //Search Github users || note that parsing res as a parameter to async works too just like in express
   const searchUsers = async (text) => {
     setLoading(true);

@@ -12,6 +12,7 @@ const User = ({user, loading, getUser, getUserRepos, repos, match}) => {
         getUserRepos(match.params.login);
         // eslint-disable-next-line
     }, []);
+    
         const {
             name, 
             avatar_url, 
