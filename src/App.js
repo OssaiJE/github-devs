@@ -7,6 +7,9 @@ import User from './components/users/User';
 import Search from './components/users/Search';
 import About from './components/pages/About';
 import axios from 'axios';
+
+import GithubState from './context/github/GithubState';
+
 import './App.css';
 
 
@@ -31,13 +34,6 @@ const App = () => {
       setLoading(false);
   }
 
-  //Search Github users || note that parsing res as a parameter to async works too just like in express
-  const searchUsers = async (text) => {
-    setLoading(true);
-    const res = await axios.get(`https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
-    setUsers(res.data.items);
-    setLoading(false);
-  }
   //Get single user
   const getUser = async (login) => {
     setLoading(true);
@@ -65,6 +61,7 @@ const App = () => {
     }, 5000);
   }
     return (
+      <GithubState>
       <Router>
       <div className="App">
         <Navbar />
@@ -73,7 +70,7 @@ const App = () => {
             <Route exact path="/" render={props => (
               <Fragment>
                 <Alert alert={alert} />
-                <Search searchUsers={searchUsers} clearUsers={clearUsers} 
+                <Search clearUsers={clearUsers} 
                   showClear={users.length > 0 ? true : false} setAlert={showAlert} />
                 <Users loading={loading} users={users} />
               </Fragment>
@@ -86,6 +83,7 @@ const App = () => {
         </div>
       </div>
       </Router>
+      </GithubState>
     );
 }
 
