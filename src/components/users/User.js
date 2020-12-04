@@ -3,12 +3,11 @@ import { Link } from 'react-router-dom';
 import Spinner from '../layout/Spinner';
 import Repos from '../repos/Repos';
 import GithubContext from '../../context/github/githubContext';
-import PropTypes from 'prop-types';
 
 
-const User = ({getUserRepos, repos, match}) => {
+const User = ({match}) => {
     const githubContext = useContext(GithubContext);
-    const {getUser, loading, user} = githubContext;
+    const {getUser, loading, user, repos, getUserRepos} = githubContext;
 
     //useEffect || without the empty array[] as second parameter, it runs infinitly
     useEffect(() => {
@@ -89,11 +88,6 @@ const User = ({getUserRepos, repos, match}) => {
                 </Fragment>
             );
         }
-}
-
-User.propTypes = {
-    repos: PropTypes.array.isRequired,
-    getUserRepos: PropTypes.func.isRequired
 }
 
 export default User;
