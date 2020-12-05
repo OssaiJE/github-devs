@@ -1,8 +1,14 @@
-import { SEARCH_USERS, SET_LOADING, CLEAR_USERS, GET_USER, GET_REPOS } from "../types";
+import { DEFAULT_USERS, SEARCH_USERS, SET_LOADING, CLEAR_USERS, GET_USER, GET_REPOS } from "../types";
 
 
-export default (state, action) => {
+const githubReducer = (state, action) => {
     switch(action.type) {
+        case DEFAULT_USERS:
+            return {
+                ...state,
+                users: action.payload,
+                loading: false
+            };
         case SEARCH_USERS:
             return {
                 ...state,
@@ -36,3 +42,5 @@ export default (state, action) => {
             return state;
     }
 }
+
+export default githubReducer;

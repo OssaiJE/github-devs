@@ -1,8 +1,8 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import axios from 'axios';
 import GithubContext from './githubContext';
 import GithubReducer from './githubReducer';
-import { SEARCH_USERS, SET_LOADING, CLEAR_USERS, GET_USER, GET_REPOS } from "../types";
+import { DEFAULT_USERS, SEARCH_USERS, SET_LOADING, CLEAR_USERS, GET_USER, GET_REPOS } from "../types";
 
 
 const GithubState = (props) => {
@@ -14,6 +14,22 @@ const GithubState = (props) => {
     }
 
     const [state, dispatch] = useReducer(GithubReducer, initialState);
+
+    //The default users onload
+    useEffect(() => { 
+        loadDefault();
+     // eslint-disable-next-line
+        }, []);
+
+    // Default Users
+    const loadDefault = async (res) => {
+        setLoading();
+        res = await axios.get(`https://api.github.com/users?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
+        dispatch({
+            type: DEFAULT_USERS,
+            payload: res.data
+        });
+      }
 
 // Search Github users || note that parsing res as a parameter to async works too just like in express
   const searchUsers = async (text) => {
@@ -64,6 +80,7 @@ const GithubState = (props) => {
             user: state.user,
             repos: state.repos,
             loading: state.loading,
+            loadDefault,
             searchUsers,
             clearUsers,
             getUser,
