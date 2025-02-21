@@ -1,20 +1,21 @@
 import React, { Fragment, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from "react-router-dom";
 import Spinner from '../layout/Spinner';
 import Repos from '../repos/Repos';
 import GithubContext from '../../context/github/githubContext';
 
 
-const User = ({match}) => {
+const User = () => {
+    const { login } = useParams();
     const githubContext = useContext(GithubContext);
     const {getUser, loading, user, repos, getUserRepos} = githubContext;
 
     //useEffect || without the empty array[] as second parameter, it runs infinitly
     useEffect(() => {
-        getUser(match.params.login);
-        getUserRepos(match.params.login);
+        getUser(login);
+        getUserRepos(login);
         // eslint-disable-next-line
-    }, []);
+    }, [login]);
     
         const {
             name, 
@@ -23,7 +24,7 @@ const User = ({match}) => {
             bio, 
             blog, 
             company,
-            login, 
+            // login, 
             html_url, 
             followers, 
             following, 
@@ -57,7 +58,7 @@ const User = ({match}) => {
                                     <p>{bio}</p>
                                 </Fragment>
                             )}
-                            <a href={html_url} className="btn btn-dark my-1">Visit Github Profile</a>
+                            <a href={html_url} target='_blank' rel="noopener noreferrer" className="btn btn-dark my-1">Visit Github Profile</a>
                             <ul>
                                 <li>
                                     {login && <Fragment>

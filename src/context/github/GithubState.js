@@ -22,14 +22,24 @@ const GithubState = (props) => {
         }, []);
 
     // Default Users
-    const loadDefault = async (res) => {
-        setLoading();
-        res = await axios.get(`https://api.github.com/users?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
+    const loadDefault = async () => {
+      setLoading();
+      try {
+        const res = await axios.get(
+          `https://api.github.com/users?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+        );
+
+        console.log("GitHub API Response:", res.data); // Debugging
+
         dispatch({
-            type: DEFAULT_USERS,
-            payload: res.data
+          type: DEFAULT_USERS,
+          payload: res.data,
         });
+      } catch (error) {
+        console.error("Error fetching users:", error);
       }
+    };
+
 
 // Search Github users || note that parsing res as a parameter to async works too just like in express
   const searchUsers = async (text) => {
